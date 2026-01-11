@@ -86,26 +86,32 @@ if (req.url==="/"){
 }else if (req.url==="/view"){
   const data=fs.readFileSync("expense.json","utf-8");
   const expenses=JSON.parse(data);
-  let expenseList="";
-    for (const exp of expenses){
-      expenseList+=`
-      <h4>${exp.id}</h4><br>
-      <h4>${exp.amount}</h4><br>
-      <h4>${exp.category}</h4><br>
-    <h4>${exp.date}</h4><br>
-    `
-    }
-    res.setHeader("Content-Type","text/html");
-    res.write(`<html>
-    <body>
-    ${expenseList}
-    </body></html>
-    `);
-    
-  
-  
+  // let expenseList="";
+  //   for (const exp of expenses){
+  //     expenseList+=`
+  //     <h4>${exp.id}</h4><br>
+  //     <h4>${exp.amount}</h4><br>
+  //     <h4>${exp.category}</h4><br>
+  //   <h4>${exp.date}</h4><br>
+  //   `
+  //   }
+  //   res.setHeader("Content-Type","text/html");
+  //   res.write(`<html>
+  //   <body>
+  //   ${expenseList}
+  //   </body></html>
+  //   `);
+    res.setHeader("Access-Control-Allow-Origin", "*");
+res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  res.setHeader("Content-type","application/json");
+  return res.end(JSON.stringify(expenses));
+}else if (req.method === "OPTIONS") {
+  res.statusCode = 200;
   return res.end();
 }
+
 
 }
 
