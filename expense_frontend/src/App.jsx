@@ -3,7 +3,10 @@ import "./App.css";
 
 export default function App() {
   const [expenses, setExpenses] = useState([]);
-
+  const [addForm,setAddForm]=useState(false);
+  function handleClick(){
+    setAddForm(true);
+  }
   useEffect(() => {
     fetch("http://localhost:3000/view")
       .then(res => res.json())
@@ -20,7 +23,18 @@ export default function App() {
           ₹{expenses.reduce((sum, e) => sum + Number(e.amount), 0)}
         </p>
       </div>
-
+      {addForm && (
+        <div className="overlay">
+        <div className="modal">
+        <form>
+          <input type="number" placeholder="Amount" />
+          <input type="text" placeholder="Category" />
+          <input type="date" placeholder="Date" />
+          <button>Add</button>
+        </form>
+        </div>
+      </div>
+      )}
       <div className="list">
         {expenses.map(exp => (
           <div className="item" key={exp.id}>
@@ -33,7 +47,7 @@ export default function App() {
         ))}
       </div>
 
-      <button className="fab">+</button>
+      <button className="fab" onClick={handleClick}>+</button>
     </div>
   );
 }
